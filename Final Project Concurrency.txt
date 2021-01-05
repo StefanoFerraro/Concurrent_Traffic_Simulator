@@ -1,0 +1,61 @@
+Final Project Concurrency 
+
+L1
+
+https://youtu.be/iifZEu0ctxc
+
+https://youtu.be/OwiKpGYN9wI
+
+* Task L1.1 : In the base class TrafficObject, set up a thread barrier in its destructor that ensures that all the thread objects in the member vector _threads are joined.
+* Task L1.2 : In the Vehicle class, start a thread with the member function drive and the object this as the launch parameters. Also, add the created thread into the _thread vector of the parent class.
+* Task L1.3 : Vary the number of simulated vehicles in main and use the top function on the terminal or the task manager of your system to observe the number of threads used by the simulation.
+You can find these tasks in the project_tasks.txt within the workspace as well.
+
+Build Instructions
+To run this code using a Udacity workspace, you will need to use the virtual desktop. In the desktop you can use Terminator or the terminal in Visual Studio Code.
+
+Once in the virtual desktop, to compile and run the code, create a build directory and use cmake and make as follows:
+root@a9ad274128c4:/home/workspace/L1_Project# mkdir build
+root@a9ad274128c4:/home/workspace/L1_Project# cd build
+root@a9ad274128c4:/home/workspace/L1_Project/build# cmake ..
+root@a9ad274128c4:/home/workspace/L1_Project/build# make
+root@a9ad274128c4:/home/workspace/L1_Project/build# ./traffic_simulation
+
+L2
+
+https://youtu.be/hYQus_Yieu4
+
+https://youtu.be/1rcgMOF996k
+
+Project Tasks
+* Task L2.1 : In method Vehicle::drive(), start up a task using std::async which takes a reference to the method Intersection::addVehicleToQueue, the object _currDestination and a shared pointer to this using the get_shared_this() function. Then, wait for the data to be available before proceeding to slow down.
+* Task L2.2 : In method Intersection::addVehicleToQueue(), add the new vehicle to the waiting line by creating a promise, a corresponding future and then adding both to _waitingVehicles. Then wait until the vehicle has been granted entry.
+* Task L2.3 : In method WaitingVehicles::permitEntryToFirstInQueue(), get the entries from the front of _promises and _vehicles. Then, fulfill promise and send signal back that permission to enter has been granted. Finally, remove the front elements from both queues.
+Note: To compile and run this code, you can use the same steps as the previous lesson exercise. You must have GPU enabled, and you will need to use the virtual desktop to see the output.
+
+L3
+
+https://youtu.be/vfNXDebmZIM
+
+https://youtu.be/w4L17HaT2Xk
+
+Project Tasks
+* Task L3.1 : In class WaitingVehicles, safeguard all accesses to the private members _vehicles and _promises with an appropriate locking mechanism, that will not cause a deadlock situation where access to the resources is accidentally blocked.
+* Task L2.2 : Add a static mutex to the base class TrafficObject (called _mtxCout) and properly instantiate it in the source file. This mutex will be used in the next task to protect standard-out.
+* Task L2.3 : In method Intersection::addVehicleToQueue and in Vehicle::drive() ensure that the text output locks the console as a shared resource. Use the mutex _mtxCout you have added to the base class TrafficObject in the previous task. Make sure that in between the two calls to std::cout at the beginning and at the end of addVehicleToQueue the lock is not held.
+FINAL
+
+https://youtu.be/ie1CM5ms2O8
+
+Task List
+* Task FP.1 : Define a class TrafficLight which is a child class of TrafficObject. The class shall have the public methods void waitForGreen() and void simulate() as well as TrafficLightPhase getCurrentPhase(), where TrafficLightPhase is an enum that can be either red or green. Also, add the private method void cycleThroughPhases(). Furthermore, there shall be the private member _currentPhase which can take red or green as its value.
+* Task FP.2 : Implement the function with an infinite loop that measures the time between two loop cycles and toggles the current phase of the traffic light between red and green and sends an update method to the message queue using move semantics. The cycle duration should be a random value between 4 and 6 seconds. Also, the while-loop should use std::this_thread::sleep_for to wait 1ms between two cycles. Finally, the private method cycleThroughPhases should be started in a thread when the public method simulate is called. To do this, use the thread queue in the base class.
+* Task FP.3 : Define a class MessageQueue which has the public methods send and receive. Send should take an rvalue reference of type TrafficLightPhase whereas receive should return this type. Also, the class should define an std::dequeue called _queue, which stores objects of type TrafficLightPhase. Finally, there should be an std::condition_variable as well as an std::mutex as private members.
+* Task FP.4 : Implement the method Send, which should use the mechanisms std::lock_guard<std::mutex> as well as _condition.notify_one() to add a new message to the queue and afterwards send a notification. Also, in class TrafficLight, create a private member of type MessageQueue for messages of type TrafficLightPhase and use it within the infinite loop to push each new TrafficLightPhase into it by calling send in conjunction with move semantics.
+* Task FP.5 : The method receive should use std::unique_lock<std::mutex> and _condition.wait() to wait for and receive new messages and pull them from the queue using move semantics. The received object should then be returned by the receive function. Then, add the implementation of the method waitForGreen, in which an infinite while-loop runs and repeatedly calls the receive function on the message queue. Once it receives TrafficLightPhase::green, the method returns.
+* Task FP.6 : In class Intersection, add a private member _trafficLight of type TrafficLight. In method Intersection::simulate(), start the simulation of _trafficLight. Then, in method Intersection::addVehicleToQueue, use the methods TrafficLight::getCurrentPhase and TrafficLight::waitForGreen to block the execution until the traffic light turns green.
+NEXT
+https://youtu.be/XVQt4iKEQwo
+
+
+
