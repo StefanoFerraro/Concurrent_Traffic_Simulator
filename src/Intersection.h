@@ -7,45 +7,40 @@
 #include <memory>
 #include "TrafficObject.h"
 
-
-// forward declaration to avoid include cycle
 class Street;
 class Vehicle;
 
-// class for queue and dequeue waiting vehicles at an intersection
 class WaitingVehicles
 {
     public:
         int getSize();
-
-        void pushBack(std::shared<Vehicle> vehicle, std::promise<void> &&promise)
+        void pushBack(std::shared_ptr<Vehicle> vehicle, std::promise<void> &&promise);
         void permitEntryToFirstInQueue();
 
     private:
         std::vector<std::shared_ptr<Vehicle>> _vehicles;
-        std::vector<std::promise<void>> _promises;
+        std::vector<std::promise<void>> _promises; //promises are needed in order to comunicate with the main function that the status of the vehicle
         std::mutex _mutex;
 };
 
-class Intersection : public TrafficObject
+class Intersection: public TrafficObject, public std::enable_shared_from_this<Intersection>
 {
     public:
         Intersection();
-
-        void setIsBlocked(bool isBlocked);
-
+        
         void addVehicleToQueue(std::shared_ptr<Vehicle> vehicle);
         void addStreet(std::shared_ptr<Street> street);
-        std::vector<std::shared_ptr<Street>> queryStreets(std::shared_ptr<Street> incoming); // return pointer to current list of all outgoing streets
+        std::vector<std::shared_ptr<Street>> queryStreets(std::shared_ptr<Street> incoming);
         void simulate();
         void vehicleHasLeft(std::shared_ptr<Vehicle> vehicle);
         bool trafficLightIsGreen();
 
     private:
-        void processVehicleQueue();
-        std::vector<std::shared_ptr<Street>> _streets;
-        WaitingVehicles _waitingVehicles;
-        bool _isBlocked;
-}
+
+        void processVehicleQueue();     // method for processing the queue (letting new vehicle in)
+        std::vector<std::shared_ptr<Street>> _streets;  //pool of streets that as the current intersection as an edge
+        WaitingVehicles _waitingVehicles;  // vehicles waiting to enter the intersection
+        bool _isBlocked;    //marker for blocking the intersection to other vehicles
+};
 
 #endif

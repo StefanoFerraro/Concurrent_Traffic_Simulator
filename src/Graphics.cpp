@@ -10,7 +10,7 @@ void Graphics::simulate()
     this->loadBackgroundImg();
     while (true)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1)); //reduce cpu usage, increase sleep time for lower the refresh rate
         this->drawTrafficObjects();
     }
 }
@@ -18,7 +18,11 @@ void Graphics::simulate()
 void Graphics::loadBackgroundImg()
 {
     _windowName = "Traffic Simulator";
-    cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
+    cv::namedWindow(_windowName, 0);
+    // std::vector<int> screen_res {1920, 1080};
+    // int window_width
+
+    cv::resizeWindow(_windowName, 1920, 1080);
 
     // load image and create copy to be used for semi-transparent overlay
     cv::Mat background = cv::imread(_bgFilename);
@@ -29,31 +33,31 @@ void Graphics::loadBackgroundImg()
 
 void Graphics::drawTrafficObjects()
 {
-    _image.at(1) = _image.at(0).clone();
-    _image.at(2) = _image.at(0).clone();
+    _images.at(1) = _images.at(0).clone();
+    _images.at(2) = _images.at(0).clone();
     
     // create overlay from all traffic objects
     for (auto it : _trafficObjects)
     {
         double posx, posy;
-        it->getPosition(posx, posy);
+        it->getPosition(posx, posy); //position of the object (Vehicle/Intersection)
 
-        if (it->getType() == ObjectType::objectIntersection)
+        if (it->getType() == ObjectType::objectIntersection) //if the object is an Intersection
         {
-            // cast object type from TrafficObject to Intersection
+            // cast object type from TrafficObject to Intersection, needed for using the method 'trafficLightIsGreen'
             std::shared_ptr<Intersection> intersection = std::dynamic_pointer_cast<Intersection>(it);
 
             // set color according to traffic light and draw the intersection as a circle
             cv::Scalar trafficLightColor = intersection->trafficLightIsGreen() == true ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255);
             cv::circle(_images.at(1), cv::Point2d(posx, posy), 25, trafficLightColor, -1);
         }
-        else if (it->getType() == ObjectType::objectVehicle)
+        else if (it->getType() == ObjectType::objectVehicle) //if the object is a Vehicle
         {
-            cv::RNG rng(it->getID());
+            cv::RNG rng(it->getID()); //random number generator seeded with the same id gives always the same number (used as reference for color pick)
             int b = rng.uniform(0, 255);
             int g = rng.uniform(0, 255);
             int r = sqrt(255*255 - g*g - r*r); // ensure that length of color vector is always 255
-            cv::Scalar vehicleColor = cv::Scalar(b,g,r);
+            cv::Scalar vehicleColor = cv::Scalar(b,g,r); // generate a scalar vector to be filled into the circle genrator
             cv::circle(_images.at(1), cv::Point2d(posx, posy), 50, vehicleColor, -1);
         }
     }

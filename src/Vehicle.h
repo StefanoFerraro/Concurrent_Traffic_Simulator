@@ -3,27 +3,29 @@
 
 #include "TrafficObject.h"
 
-class Street;
+// Forward declarations to be used in current class
 class Intersection;
+class Street;
 
 class Vehicle : public TrafficObject, public std::enable_shared_from_this<Vehicle>
 {
     public:
-        Vehicle();
+        Vehicle(); //desctructor already handled in the TrafficObject class 
 
-        void setCurrentStreet(std::shared_ptr<Street> street);
+        void setCurrentStreet(std::shared_ptr<Street> street) { _currStreet = street;}
         void setCurrentDestination(std::shared_ptr<Intersection> destination);
 
         void simulate();
-
-        std::shared_ptr<Vehicle> get_shared_this() {return shared_from_this();}
+        
+        std::shared_ptr<Vehicle> get_shared_this() { return shared_from_this(); }
 
     private:
-        void drive();
-        std::shared_ptr<Street> _currStreet;    // street on which the vehicle is currently on
-        std::shared_ptr<Intersection> _currDestination; // destination to which the vehicle is currently driving
-        double _posStreet;  // position on current street
-        double _speed;  // ego speed in m/s
+
+        void drive(); //function to pass to the thread for simulating the vehicle movement along the street
+        std::shared_ptr<Street> _currStreet;
+        std::shared_ptr<Intersection> _currDestination;
+        double _posStreet;
+        double _speed; // in m/s
 };
 
 #endif

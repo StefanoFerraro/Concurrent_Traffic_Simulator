@@ -3,32 +3,110 @@
 #include <vector>
 
 #include "Intersection.h"
+#include "Graphics.h"
+#include "Vehicle.h"
+#include "Street.h"
 
-void createTrafficObject(std::vector<std::shared_ptr<Street>> &streets, std::vector<std::shared_ptr<Intersection>> &intersections, std::vector<std::shared_ptr<Vehicle>> &vehicles, int nVehicles)
+void createTrafficObject(std::vector<std::shared_ptr<Street>> &streets, std::vector<std::shared_ptr<Intersection>> &intersections, std::vector<std::shared_ptr<Vehicle>> &vehicles, std::string &filename, int nVehicles)
 {
-    std::string filename = "data/nyc.jpg";
+    filename = "../data/nyc.jpg";
 
-    int nIntersections = 6;
+    int nIntersection = 6;
 
-    for (size_t i = 0; i < nIntersections; i++)
-    {
+    for(size_t ni = 0; ni < nIntersection; ni++)
+    {   
         intersections.push_back(std::make_shared<Intersection>());
     }
 
-    // TO DO
+    // position intersections in pixel coordinates
+    intersections.at(0)->setPosition(1430, 625);
+    intersections.at(1)->setPosition(2575, 1260);
+    intersections.at(2)->setPosition(2200, 1950);
+    intersections.at(3)->setPosition(1000, 1350);
+    intersections.at(4)->setPosition(400, 1000);
+    intersections.at(5)->setPosition(750, 250);
 
+    int nStreet = 7;
 
+    for(size_t ns = 0; ns < nStreet; ns++)
+    {   
+        streets.push_back(std::make_shared<Street>());
+    }
+
+    streets.at(0)->setInIntersection(intersections.at(0));
+    streets.at(0)->setOutIntersection(intersections.at(1));
+
+    streets.at(1)->setInIntersection(intersections.at(1));
+    streets.at(1)->setOutIntersection(intersections.at(2));
+
+    streets.at(2)->setInIntersection(intersections.at(2));
+    streets.at(2)->setOutIntersection(intersections.at(3));
+
+    streets.at(3)->setInIntersection(intersections.at(3));
+    streets.at(3)->setOutIntersection(intersections.at(4));
+
+    streets.at(4)->setInIntersection(intersections.at(4));
+    streets.at(4)->setOutIntersection(intersections.at(5));
+
+    streets.at(5)->setInIntersection(intersections.at(5));
+    streets.at(5)->setOutIntersection(intersections.at(0));
+
+    streets.at(6)->setInIntersection(intersections.at(0));
+    streets.at(6)->setOutIntersection(intersections.at(3));
+
+    for(size_t nv = 0; nv < nVehicles; nv++)
+    {
+        vehicles.push_back(std::make_shared<Vehicle>());
+
+        // Place each vehicle at a specific street with a given destination
+        vehicles.at(nv)->setCurrentStreet(streets.at(nv%(nStreet-1)));  //place one vehicle per street
+        if (nv == 6) {nv = 0;} //handling specific case for the sixth street 
+        vehicles.at(nv)->setCurrentDestination(intersections.at(nv%(nStreet-1))); // limit the number of vehicles, if nv == 6, no intersection is identified
+    }
 }
 
 int main()
 {
+    /* PART 1 : Set up traffic objects */
     std::vector<std::shared_ptr<Street>>  streets;
     std::vector<std::shared_ptr<Intersection>>  intersections;
     std::vector<std::shared_ptr<Vehicle>>  vehicles;
 
+    std::string backgroundImg;
+
     int nVehicles = 5;
 
-    createTrafficObject(streets, intersections, vehicles, nVehicles);
+    createTrafficObject(streets, intersections, vehicles, backgroundImg,  nVehicles);
 
+    /* PART 2 : Simulate traffic objects */
 
+    // We divide the simulation in two side, one for intersection (handle the queue at each intersection)
+    // and a second for the vehicles movement around the map
+
+    // start simulation of intersections (each intersection a thread so the main function goes on with the execution)
+    std::for_each(intersections.begin(), intersections.end(), [](std::shared_ptr<Intersection> &i){i->simulate();});
+
+    // start simulation of vehicles (each vehicle a thread so the main function goes on with the execution)
+    std::for_each(vehicles.begin(), vehicles.end(), [](std::shared_ptr<Vehicle> &v){v->simulate();});
+
+    /* PART 3 : Start the Graphic Interface Simulation*/
+
+    std::vector<std::shared_ptr<TrafficObject>> trafficObjects; // the graphical unit require a vector containg Intersections and Streets. All the element of the vector are of class TrafficObjects
+    std::for_each(intersections.begin(), intersections.end(), [&trafficObjects](std::shared_ptr<Intersection> &i){
+        std::shared_ptr<TrafficObject> TObj = std::dynamic_pointer_cast<TrafficObject>(i); // we cast the object before pushing it into the vector
+        // C++ checks if the casting we are doing is actually valid, and it can be performed just between inherited classes and the parent.
+        trafficObjects.push_back(TObj);
+        });
+
+    std::for_each(vehicles.begin(), vehicles.end(), [&trafficObjects](std::shared_ptr<Vehicle> &v){
+        std::shared_ptr<TrafficObject> TObj = std::dynamic_pointer_cast<TrafficObject>(v); // we cast the object before pushing it into the vector
+        // C++ checks if the casting we are doing is actually valid, and it can be performed just between inherited classes and the parent.
+        trafficObjects.push_back(TObj);
+        });
+
+    Graphics *graphics = new Graphics();
+
+    graphics->setBgFilename(backgroundImg);
+    graphics->setTrafficObjects(trafficObjects);
+    graphics->simulate(); // while loop, receives data from the vehicle and intersection threads
 }

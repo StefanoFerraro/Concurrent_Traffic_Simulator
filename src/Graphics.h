@@ -9,8 +9,7 @@
 class Graphics
 {
     public:
-
-        void seBgFilename(std::string filename) {_bgFilename = filename;}
+        void setBgFilename(std::string filename) {_bgFilename = filename;}
         void setTrafficObjects(std::vector<std::shared_ptr<TrafficObject>> &TrafficObject) {_trafficObjects = TrafficObject;}
 
         void simulate();
@@ -20,10 +19,10 @@ class Graphics
         void loadBackgroundImg();
         void drawTrafficObjects();
 
-        std::vector<std::shared_ptr<TrafficObject>> _trafficObject;
+        std::vector<std::shared_ptr<TrafficObject>> _trafficObjects;
         std::string _bgFilename;
         std::string _windowName;
         std::vector<cv::Mat> _images;
-}
+};
 
 #endif

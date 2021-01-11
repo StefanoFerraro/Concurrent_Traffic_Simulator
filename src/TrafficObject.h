@@ -1,43 +1,44 @@
 #ifndef TRAFFICOBJECT_H
 #define TRAFFICOBJECT_H
 
-#include <vector>
 #include <thread>
+#include <vector>
 #include <mutex>
 
 enum ObjectType
 {
     noObject,
-    objectVehicle,
     objectIntersection,
-    objectStreet,    
-};
+    objectStreet,
+    objectVehicle
+}; 
 
 class TrafficObject
 {
     public:
-        // constructor / desctructor
+
+        //constructor/destructor
         TrafficObject();
         ~TrafficObject();
 
-        // getter & setter
-        int getID() {return _id;}
+        //getter/setter
         void setPosition(double x, double y);
         void getPosition(double &x, double &y);
-        ObjectType getType() {return _type; }
+        int getID() {return _id;}
+        ObjectType getType() {return _type;}
 
-        // function declared here, but can be overwriten by a derived class
-        virtual void simulate(){};
+        virtual void simulate(){};  // virtual function needed for making the function polymorphic (could be any other function), 
+                                    // this is required for the dynamic casting in the Graphic class
 
     protected:
-        ObjectType _type;  // identifies the class type
-        int _id;    // every traffic object has its own unique id
-        double _posX, _posY;    // vehicle position in pixels
-        std::vector<std::thread> threads;   // holds all threads that have been launched within this object
-        static std::mutex _mtx; // mutex shared by all traffic objects for protecting cout 
+        ObjectType _type;   //Identifu the type of traffic object
+        int _id;    //unique id of the object
+        double _posX, _posY;    //position of the object in px
+        std::vector<std::thread> threads;   // vector of all the threads associated with the object
+        static std::mutex _mtx;    //mutex shared by all traffic objects for protecting cout to console
 
     private:
-        static int _idCnt; // global variable for counting object ids
+        static int _idCnt;  // global variable for sharing the latest id used by another object
 };
 
 #endif
