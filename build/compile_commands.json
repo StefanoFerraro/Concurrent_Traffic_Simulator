@@ -1,0 +1,37 @@
+[
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/Graphics.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Graphics.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Graphics.cpp"
+},
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/Intersection.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.cpp"
+},
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/Street.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Street.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Street.cpp"
+},
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/TrafficLight.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficLight.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficLight.cpp"
+},
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/TrafficObject.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficObject.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficObject.cpp"
+},
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/TrafficSimulator.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficSimulator.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficSimulator.cpp"
+},
+{
+  "directory": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/build",
+  "command": "/usr/bin/c++   -isystem /usr/local/include/opencv4  -std=c++17 -pthread -g   -o CMakeFiles/traffic_simulation.dir/src/Vehicle.cpp.o -c /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Vehicle.cpp",
+  "file": "/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Vehicle.cpp"
+}
+]

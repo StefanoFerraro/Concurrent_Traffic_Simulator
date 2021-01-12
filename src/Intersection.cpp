@@ -7,6 +7,7 @@
 #include "Street.h"
 #include "Intersection.h"
 #include "Vehicle.h"
+#include "TrafficLight.h"
 
 int WaitingVehicles::getSize() 
 {
@@ -38,7 +39,6 @@ Intersection::Intersection()
 {
     _type = ObjectType::objectIntersection;
     _isBlocked = false;
-
 }
 
 void Intersection::addVehicleToQueue(std::shared_ptr<Vehicle> vehicle)
@@ -89,6 +89,9 @@ std::vector<std::shared_ptr<Street>> Intersection::queryStreets(std::shared_ptr<
 
 void Intersection::simulate()
 {
+    _trafficLight = std::make_shared<TrafficLight>(); //definition of _trafficLight, required after declaration it just has a null value
+    _trafficLight->simulate();
+
     // in order to simulate the intersections, we are going to create a thread for the current element of the class
     threads.emplace_back(std::thread(&Intersection::processVehicleQueue, this)); //when passing a methos of a class we specify also the instance where to apply the method 
 }
@@ -97,17 +100,21 @@ void Intersection::processVehicleQueue()
 {
     while(true)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(16)); // 60FPS
         if(_waitingVehicles.getSize() > 0 && !_isBlocked)
         {
-            _isBlocked = true;
-            _waitingVehicles.permitEntryToFirstInQueue();
+            // MY ADD
+            if (trafficLightColor() == trafficLightPhase::green)
+            {
+                _isBlocked = true;
+                _waitingVehicles.permitEntryToFirstInQueue();
+            }
         }
     }
 }
 
-bool Intersection::trafficLightIsGreen()
+trafficLightPhase Intersection::trafficLightColor()
 {
-    return true;
+    return _trafficLight->getCurrentPhase();
 }
 

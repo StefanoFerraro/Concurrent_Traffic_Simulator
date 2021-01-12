@@ -6,9 +6,13 @@
 #include <mutex>
 #include <memory>
 #include "TrafficObject.h"
+#include "TrafficLight.h"
+
 
 class Street;
 class Vehicle;
+class TrafficLight;
+//enum trafficLightPhase;
 
 class WaitingVehicles
 {
@@ -33,7 +37,7 @@ class Intersection: public TrafficObject, public std::enable_shared_from_this<In
         std::vector<std::shared_ptr<Street>> queryStreets(std::shared_ptr<Street> incoming);
         void simulate();
         void vehicleHasLeft(std::shared_ptr<Vehicle> vehicle);
-        bool trafficLightIsGreen();
+        trafficLightPhase trafficLightColor();
 
     private:
 
@@ -41,6 +45,7 @@ class Intersection: public TrafficObject, public std::enable_shared_from_this<In
         std::vector<std::shared_ptr<Street>> _streets;  //pool of streets that as the current intersection as an edge
         WaitingVehicles _waitingVehicles;  // vehicles waiting to enter the intersection
         bool _isBlocked;    //marker for blocking the intersection to other vehicles
+        std::shared_ptr<TrafficLight> _trafficLight;
 };
 
 #endif

@@ -10,7 +10,8 @@ enum ObjectType
     noObject,
     objectIntersection,
     objectStreet,
-    objectVehicle
+    objectVehicle,
+    objectTrafficLight
 }; 
 
 class TrafficObject
@@ -35,7 +36,8 @@ class TrafficObject
         int _id;    //unique id of the object
         double _posX, _posY;    //position of the object in px
         std::vector<std::thread> threads;   // vector of all the threads associated with the object
-        static std::mutex _mtx;    //mutex shared by all traffic objects for protecting cout to console
+        static std::mutex _mtx;    // mutex shared by all traffic objects for protecting cout to console
+        // static mutex is declared at compile time, but then it needs to be defined within the global scope (ref line 8 TrafficObject.cpp)
 
     private:
         static int _idCnt;  // global variable for sharing the latest id used by another object

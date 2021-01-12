@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/traffic_simulation.dir/src/Graphics.cpp.o"
   "CMakeFiles/traffic_simulation.dir/src/Intersection.cpp.o"
   "CMakeFiles/traffic_simulation.dir/src/Street.cpp.o"
+  "CMakeFiles/traffic_simulation.dir/src/TrafficLight.cpp.o"
   "CMakeFiles/traffic_simulation.dir/src/TrafficObject.cpp.o"
   "CMakeFiles/traffic_simulation.dir/src/TrafficSimulator.cpp.o"
   "CMakeFiles/traffic_simulation.dir/src/Vehicle.cpp.o"

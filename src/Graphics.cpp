@@ -4,13 +4,14 @@
 #include <opencv2/highgui.hpp>
 #include "Graphics.h"
 #include "Intersection.h"
+#include "TrafficLight.h"
 
 void Graphics::simulate()
 {
     this->loadBackgroundImg();
     while (true)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1)); //reduce cpu usage, increase sleep time for lower the refresh rate
+        std::this_thread::sleep_for(std::chrono::milliseconds(16)); //reduce cpu usage, increase sleep time for lower the refresh rate
         this->drawTrafficObjects();
     }
 }
@@ -47,9 +48,21 @@ void Graphics::drawTrafficObjects()
             // cast object type from TrafficObject to Intersection, needed for using the method 'trafficLightIsGreen'
             std::shared_ptr<Intersection> intersection = std::dynamic_pointer_cast<Intersection>(it);
 
+            cv::Scalar trafficLightColor;
+
             // set color according to traffic light and draw the intersection as a circle
-            cv::Scalar trafficLightColor = intersection->trafficLightIsGreen() == true ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255);
+            switch(intersection->trafficLightColor())
+            {
+                case trafficLightPhase::green : trafficLightColor = cv::Scalar(0, 255, 0); break;
+
+                case trafficLightPhase::yellow : trafficLightColor = cv::Scalar(20, 255, 255); break;
+
+                case trafficLightPhase::red : trafficLightColor = cv::Scalar(0, 0, 255); break;
+            }
+            
+            //cv::Scalar trafficLightColor = intersection->trafficLightColor() == trafficLightPhase:: ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255);
             cv::circle(_images.at(1), cv::Point2d(posx, posy), 25, trafficLightColor, -1);
+
         }
         else if (it->getType() == ObjectType::objectVehicle) //if the object is a Vehicle
         {

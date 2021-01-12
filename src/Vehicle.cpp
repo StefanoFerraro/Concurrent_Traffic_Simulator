@@ -45,7 +45,7 @@ void Vehicle::drive()
 
     while(true) // once started cycle runs continuosly
     {   
-        std::this_thread::sleep_for(std::chrono::milliseconds(1)); //sleet at every cycle reduce the CPU usage (increase sleep time) and help expose data races
+        std::this_thread::sleep_for(std::chrono::milliseconds(16)); //sleep at every cycle reduce the CPU usage (increase sleep time) and help expose data races
 
         long deltaTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
         if(deltaTime >= cycleDuration)

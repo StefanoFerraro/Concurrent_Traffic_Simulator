@@ -11,7 +11,7 @@ void createTrafficObject(std::vector<std::shared_ptr<Street>> &streets, std::vec
 {
     filename = "../data/nyc.jpg";
 
-    int nIntersection = 6;
+    int nIntersection = 10;
 
     for(size_t ni = 0; ni < nIntersection; ni++)
     {   
@@ -25,8 +25,12 @@ void createTrafficObject(std::vector<std::shared_ptr<Street>> &streets, std::vec
     intersections.at(3)->setPosition(1000, 1350);
     intersections.at(4)->setPosition(400, 1000);
     intersections.at(5)->setPosition(750, 250);
+    intersections.at(6)->setPosition(2775, 885);
+    intersections.at(7)->setPosition(1630, 250);
+    intersections.at(8)->setPosition(850, 1650);
+    intersections.at(9)->setPosition(300, 1370);
 
-    int nStreet = 7;
+    int nStreet = 13;
 
     for(size_t ns = 0; ns < nStreet; ns++)
     {   
@@ -35,7 +39,7 @@ void createTrafficObject(std::vector<std::shared_ptr<Street>> &streets, std::vec
 
     streets.at(0)->setInIntersection(intersections.at(0));
     streets.at(0)->setOutIntersection(intersections.at(1));
-
+    
     streets.at(1)->setInIntersection(intersections.at(1));
     streets.at(1)->setOutIntersection(intersections.at(2));
 
@@ -54,14 +58,34 @@ void createTrafficObject(std::vector<std::shared_ptr<Street>> &streets, std::vec
     streets.at(6)->setInIntersection(intersections.at(0));
     streets.at(6)->setOutIntersection(intersections.at(3));
 
+    streets.at(7)->setInIntersection(intersections.at(1));
+    streets.at(7)->setOutIntersection(intersections.at(6));
+
+    streets.at(8)->setInIntersection(intersections.at(6));
+    streets.at(8)->setOutIntersection(intersections.at(7));
+
+    streets.at(9)->setInIntersection(intersections.at(7));
+    streets.at(9)->setOutIntersection(intersections.at(0));
+
+    streets.at(10)->setInIntersection(intersections.at(3));
+    streets.at(10)->setOutIntersection(intersections.at(8));
+
+    streets.at(11)->setInIntersection(intersections.at(8));
+    streets.at(11)->setOutIntersection(intersections.at(9));
+
+    streets.at(12)->setInIntersection(intersections.at(9));
+    streets.at(12)->setOutIntersection(intersections.at(4));
+
+
+
     for(size_t nv = 0; nv < nVehicles; nv++)
     {
         vehicles.push_back(std::make_shared<Vehicle>());
 
         // Place each vehicle at a specific street with a given destination
-        vehicles.at(nv)->setCurrentStreet(streets.at(nv%(nStreet-1)));  //place one vehicle per street
-        if (nv == 6) {nv = 0;} //handling specific case for the sixth street 
-        vehicles.at(nv)->setCurrentDestination(intersections.at(nv%(nStreet-1))); // limit the number of vehicles, if nv == 6, no intersection is identified
+        vehicles.at(nv)->setCurrentStreet(streets.at(nv%(5)));  //place one vehicle per street
+        if (nv%6 == 0) {vehicles.at(nv)->setCurrentDestination(intersections.at(0));} //handling specific case for the sixth street 
+        else {vehicles.at(nv)->setCurrentDestination(intersections.at(nv%(5)));} // limit the number of vehicles, if nv == 6, no intersection is identified
     }
 }
 
@@ -74,7 +98,7 @@ int main()
 
     std::string backgroundImg;
 
-    int nVehicles = 5;
+    int nVehicles = 3;
 
     createTrafficObject(streets, intersections, vehicles, backgroundImg,  nVehicles);
 

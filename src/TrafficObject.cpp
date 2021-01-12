@@ -5,7 +5,7 @@
 
 int TrafficObject::_idCnt = 0;  //init id to 0
 
-std::mutex TrafficObject::_mtx;
+std::mutex TrafficObject::_mtx; //static mutex definition, required for using the mutex in other contexts
 
 // method for setting position of object
 void TrafficObject::setPosition(double x, double y)
