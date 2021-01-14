@@ -22,12 +22,14 @@ class MessageQueue
         T receive();
 
     private: 
-        std::deque<T> _deque;
-        std::condition_variable _cond;
         std::mutex _mutex;
+        std::condition_variable _cond;
+        std::deque<T> _deque;
+        
+        
 };
 
-class TrafficLight : public TrafficObject
+class TrafficLight : public TrafficObject, public std::enable_shared_from_this<TrafficLight>
 {
     public:
         TrafficLight();
@@ -38,7 +40,7 @@ class TrafficLight : public TrafficObject
     private:
         void cycleThroughPhases(); 
         trafficLightPhase _currentPhase;
-        std::shared_ptr<MessageQueue<trafficLightPhase>> queue;
+        MessageQueue<trafficLightPhase> queue;
 };
 
 #endif

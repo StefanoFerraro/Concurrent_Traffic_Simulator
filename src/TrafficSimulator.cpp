@@ -111,7 +111,7 @@ int main()
 
     std::string backgroundImg;
 
-    int nVehicles = 5;
+    int nVehicles = 12;
 
     createTrafficObject(streets, intersections, vehicles, backgroundImg,  nVehicles);
 
