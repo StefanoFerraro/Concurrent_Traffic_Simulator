@@ -2,6 +2,7 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
+#include <string>
 #include "Graphics.h"
 #include "Intersection.h"
 #include "TrafficLight.h"
@@ -62,6 +63,13 @@ void Graphics::drawTrafficObjects()
             
             //cv::Scalar trafficLightColor = intersection->trafficLightColor() == trafficLightPhase:: ? cv::Scalar(0, 255, 0) : cv::Scalar(0, 0, 255);
             cv::circle(_images.at(1), cv::Point2d(posx, posy), 25, trafficLightColor, -1);
+            cv::putText(_images.at(1), //target image
+                std::to_string(intersection->getID()), //text
+                cv::Point2d(posx - 15, posy + 15), //top-left position
+                cv::FONT_HERSHEY_DUPLEX,
+                1.5,
+                CV_RGB(0, 0, 0), //font color
+                3);
 
         }
         else if (it->getType() == ObjectType::objectVehicle) //if the object is a Vehicle
@@ -72,6 +80,13 @@ void Graphics::drawTrafficObjects()
             int r = sqrt(255*255 - g*g - r*r); // ensure that length of color vector is always 255
             cv::Scalar vehicleColor = cv::Scalar(b,g,r); // generate a scalar vector to be filled into the circle genrator
             cv::circle(_images.at(1), cv::Point2d(posx, posy), 50, vehicleColor, -1);
+            cv::putText(_images.at(1), //target image
+                std::to_string(it->getID()), //text
+                cv::Point2d(posx - 30, posy + 15), //top-left position
+                cv::FONT_HERSHEY_DUPLEX,
+                1.5,
+                CV_RGB(255, 255, 255), //font color
+                2);
         }
     }
 

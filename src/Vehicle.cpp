@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+
 #include <iostream>
 #include <random>
 #include <cmath>
@@ -52,28 +54,45 @@ void Vehicle::drive()
         {
             _posStreet += _speed * deltaTime / 1000; // the operator / returns an int
 
-            double percCompletition = _posStreet / _currStreet->getLength();
+            double distCompletition = _currStreet->getLength() - _posStreet ;
 
             std::shared_ptr<Intersection> in = _currDestination->getID() == _currStreet->getInIntersection()->getID() ? _currStreet->getOutIntersection() : _currStreet->getInIntersection(); 
             std::shared_ptr<Intersection> out = _currDestination;
 
-            double x1, y1, x2, y2, dx, dy, l, xv, yv;
+            double x1, y1, x2, y2, dx, dy, l, xv, yv, theta;
 
+            
             in->getPosition(x1, y1);
             out->getPosition(x2, y2);
 
             dx = x2 - x1;
             dy = y2 - y1;
 
-            // l = std::sqrt(std::pow(dx, 2) + std::pow(dy, 2));
+            theta = std::atan(std::abs(dx/dy));
 
-            xv = x1 + percCompletition * dx;
-            yv = y1 + percCompletition * dy;
+
+            if(x1 > x2)
+            {
+                xv = x1 - _posStreet * std::sin(theta);
+            }
+            else
+            {
+                xv = x1 + _posStreet * std::sin(theta);
+            }
+
+            if(y1 > y2)
+            {
+               yv = y1 - _posStreet * std::cos(theta);
+            }
+            else
+            {
+               yv = y1 + _posStreet * std::cos(theta);
+            }    
 
             this->setPosition(xv, yv);
 
             // check whenever the Vehicle is approaching the intersection
-            if(percCompletition >= 0.9 && !hasEnterIntersection)  
+            if(distCompletition <= 100 && !hasEnterIntersection)  
             {
                 // create a future for starting a task and adding the vehicle to the queue of the intersection of destination
                 // AddVehicleToQueue will allow acce to the intersection only when the vehicle is first in queue 
@@ -83,11 +102,11 @@ void Vehicle::drive()
                 ftrEntryGranted.get();
                 
                 // decrease speed
-                _speed /= 10.0;
+                _speed /= 5.0;
                 hasEnterIntersection = true;
             }
 
-            if(percCompletition >= 1.0 && hasEnterIntersection)
+            if(distCompletition <= 0.0 && hasEnterIntersection)
             {
                 // choose next street and destination for the vehicle
                 std::vector<std::shared_ptr<Street>> streetOptions = _currDestination->queryStreets(_currStreet); // queryStreets return a list of the available streets to take, exluding the street of it came
@@ -117,7 +136,7 @@ void Vehicle::drive()
                 this->setCurrentStreet(nextStreet);
 
                 // reset speed
-                _speed *= 10.0;
+                _speed *= 5.0;
                 hasEnterIntersection = false;
             }
 

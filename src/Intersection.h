@@ -38,12 +38,12 @@ class Intersection: public TrafficObject, public std::enable_shared_from_this<In
         void simulate();
         void vehicleHasLeft(std::shared_ptr<Vehicle> vehicle);
         trafficLightPhase trafficLightColor();
+        WaitingVehicles _waitingVehicles;  // vehicles waiting to enter the intersection
 
     private:
 
         void processVehicleQueue();     // method for processing the queue (letting new vehicle in)
         std::vector<std::shared_ptr<Street>> _streets;  //pool of streets that as the current intersection as an edge
-        WaitingVehicles _waitingVehicles;  // vehicles waiting to enter the intersection
         bool _isBlocked;    //marker for blocking the intersection to other vehicles
         std::shared_ptr<TrafficLight> _trafficLight;
 };

@@ -6,22 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Graphics.cpp
-iostream
--
-opencv2/core.hpp
--
-opencv2/imgproc.hpp
--
-opencv2/highgui.hpp
--
-Graphics.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Graphics.h
-Intersection.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.h
-TrafficLight.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficLight.h
-
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Graphics.h
 string
 -
@@ -31,26 +15,6 @@ opencv2/core.hpp
 -
 TrafficObject.h
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficObject.h
-
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.cpp
-iostream
--
-thread
--
-chrono
--
-future
--
-random
--
-Street.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Street.h
-Intersection.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.h
-Vehicle.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Vehicle.h
-TrafficLight.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficLight.h
 
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.h
 vector
@@ -71,6 +35,12 @@ TrafficObject.h
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficObject.h
 
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficLight.h
+deque
+-
+mutex
+-
+condition_variable
+-
 TrafficObject.h
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficObject.h
 
@@ -82,19 +52,21 @@ vector
 mutex
 -
 
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Vehicle.cpp
+/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/TrafficSimulator.cpp
 iostream
 -
-random
+thread
 -
-cmath
+vector
 -
-Street.h
-/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Street.h
 Intersection.h
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Intersection.h
+Graphics.h
+/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Graphics.h
 Vehicle.h
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Vehicle.h
+Street.h
+/home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Street.h
 
 /home/stefano/Documents/CppND-Program-a-Concurrent-Traffic-Simulation/src/Vehicle.h
 TrafficObject.h
@@ -418,31 +390,5 @@ opencv2/core/cvdef.h
 assert.h
 -
 
-/usr/local/include/opencv4/opencv2/highgui.hpp
-opencv2/core.hpp
-/usr/local/include/opencv4/opencv2/opencv2/core.hpp
-opencv2/imgcodecs.hpp
-/usr/local/include/opencv4/opencv2/opencv2/imgcodecs.hpp
-opencv2/videoio.hpp
-/usr/local/include/opencv4/opencv2/opencv2/videoio.hpp
-
-/usr/local/include/opencv4/opencv2/imgcodecs.hpp
-opencv2/core.hpp
-/usr/local/include/opencv4/opencv2/opencv2/core.hpp
-
-/usr/local/include/opencv4/opencv2/imgproc.hpp
-opencv2/core.hpp
-/usr/local/include/opencv4/opencv2/opencv2/core.hpp
-./imgproc/segmentation.hpp
-/usr/local/include/opencv4/opencv2/imgproc/segmentation.hpp
-
-/usr/local/include/opencv4/opencv2/imgproc/segmentation.hpp
-opencv2/imgproc.hpp
-/usr/local/include/opencv4/opencv2/imgproc/opencv2/imgproc.hpp
-
 /usr/local/include/opencv4/opencv2/opencv_modules.hpp
-
-/usr/local/include/opencv4/opencv2/videoio.hpp
-opencv2/core.hpp
-/usr/local/include/opencv4/opencv2/opencv2/core.hpp
 

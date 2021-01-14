@@ -13,6 +13,7 @@ class Vehicle : public TrafficObject, public std::enable_shared_from_this<Vehicl
         Vehicle(); //desctructor already handled in the TrafficObject class 
 
         void setCurrentStreet(std::shared_ptr<Street> street) { _currStreet = street;}
+        std::shared_ptr<Street> getCurrentStreet() {return _currStreet;}
         void setCurrentDestination(std::shared_ptr<Intersection> destination);
 
         void simulate();
@@ -22,8 +23,8 @@ class Vehicle : public TrafficObject, public std::enable_shared_from_this<Vehicl
     private:
 
         void drive(); //function to pass to the thread for simulating the vehicle movement along the street
-        std::shared_ptr<Street> _currStreet;
         std::shared_ptr<Intersection> _currDestination;
+        std::shared_ptr<Street> _currStreet;
         double _posStreet;
         double _speed; // in m/s
 };
